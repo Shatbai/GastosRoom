@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.getGastos(gastoDao)
+
     }
     private val agregarDatosLauncher=
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             GastoCapturaDialog(onSubmitClickListener = {gasto ->
                 Toast.makeText(baseContext,gasto.description,Toast.LENGTH_LONG).show()
                 viewModel.insertaGastos(gastoDao,gasto)
-                viewModel.sumaGastos(gastoDao,gasto)
+                viewModel.sumaGastos(gastoDao)// no se puedo hacer la suma pero aqui el intento.
             }).show(supportFragmentManager,"")
         }
     }

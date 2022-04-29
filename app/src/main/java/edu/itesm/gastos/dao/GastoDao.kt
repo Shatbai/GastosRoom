@@ -12,5 +12,5 @@ interface GastoDao{
     suspend fun insertGasto(gasto: Gasto)
 
     @Query("select sum(monto) from Gasto")
-    suspend fun sumarGastos(monto: Gasto):List<Gasto>
+    suspend fun sumarGastos():Double
 }

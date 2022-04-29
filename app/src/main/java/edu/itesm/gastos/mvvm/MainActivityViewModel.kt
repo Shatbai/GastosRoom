@@ -11,13 +11,19 @@ import kotlin.random.Random
 
 
 class MainActivityViewModel : ViewModel(){
-     var liveData: MutableLiveData<List<Gasto>>
+    var liveData: MutableLiveData<List<Gasto>>
+    var liveDataD: MutableLiveData<Double>
     init {
         liveData = MutableLiveData()
+        liveDataD= MutableLiveData()
     }
 
     fun getLiveDataObserver(): MutableLiveData<List<Gasto>>{
         return liveData
+    }
+    fun getLiveData1Observer(): MutableLiveData<Double>
+    {
+        return liveDataD
     }
 
     fun getGastos(gastoDao: GastoDao){
@@ -34,10 +40,9 @@ class MainActivityViewModel : ViewModel(){
             liveData.postValue(gastoDao.getAllGastos())
         }
     }
-    fun sumaGastos(gastoDao: GastoDao,gasto: Gasto){
+    fun sumaGastos(gastoDao: GastoDao){
         CoroutineScope(Dispatchers.IO).launch{
-            gastoDao.sumarGastos(Gasto(0, gasto.description,gasto.monto))
-
+            liveDataD.postValue((gastoDao.sumarGastos())).toString()
         }
 
     }
