@@ -2,16 +2,19 @@ package edu.itesm.gastos.mvvm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import edu.itesm.gastos.dao.GastoDao
 import edu.itesm.gastos.entities.Gasto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 
-class MainActivityViewModel : ViewModel(){
-     var liveData: MutableLiveData<List<Gasto>>
+class MainActivityViewModel (private val gastoDao: GastoDao): ViewModel(){
+    fun getGastosFlujo(): Flow<List<Gasto>> = gastoDao.getAllGastos()
+    /*var liveData: MutableLiveData<List<Gasto>>
     init {
         liveData = MutableLiveData()
     }
@@ -34,13 +37,17 @@ class MainActivityViewModel : ViewModel(){
             liveData.postValue(gastoDao.getAllGastos())
         }
     }
-    fun sumaGastos(gastoDao: GastoDao,gasto: Gasto){
-        CoroutineScope(Dispatchers.IO).launch{
-            gastoDao.sumarGastos(Gasto(0, gasto.description,gasto.monto))
-
+     */
+}
+class MainActivityViewModelFactory(private val gastoDao: GastoDao):
+    ViewModelProvider.Factory{
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)){
+            return MainActivityViewModel(gastoDao) as T
         }
-
+        throw IllegalArgumentException("Clase de MVVM no conocida")
     }
+
 }
 
 
