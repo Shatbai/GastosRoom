@@ -8,7 +8,9 @@ interface GastoDao{
     @Query("SELECT * from Gasto")
     suspend fun getAllGastos(): List<Gasto>
 
-    //"SELECT SUM(monto) from Gasto"
     @Insert
     suspend fun insertGasto(gasto: Gasto)
+
+    @Query("select sum(monto) from Gasto")
+    suspend fun sumarGastos(monto: Gasto):List<Gasto>
 }

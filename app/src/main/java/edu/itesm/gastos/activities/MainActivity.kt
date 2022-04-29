@@ -1,9 +1,12 @@
 package edu.itesm.gastos.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         initRecycler()
         initViewModel()
+        fabAgregarDatos()
     }
     private fun initRecycler(){
         gastos = mutableListOf<Gasto>()
@@ -56,5 +60,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.getGastos(gastoDao)
+    }
+    private val agregarDatosLauncher=
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            resultado-> if (resultado.resultCode== RESULT_OK){
+                val gasto: Gasto=resultado.data?.getSerializableExtra("gasto") as Gasto
+            Toast.makeText(baseContext,gasto.description,Toast.LENGTH_LONG).show()
+        }
+        }
+    private fun fabAgregarDatos() {
+        binding.fab.setOnClickListener {
+           /* val intento = Intent(baseContext, CapturaGastoActivity::class.java)
+            agregarDatosLauncher.launch(intento)
+*/
+            GastoCapturaDialog(onSubmitClickListener = {gasto ->
+                Toast.makeText(baseContext,gasto.description,Toast.LENGTH_LONG).show()
+                viewModel.insertaGastos(gastoDao,gasto)
+                viewModel.sumaGastos(gastoDao,gasto)
+            }).show(supportFragmentManager,"")
+        }
     }
 }
