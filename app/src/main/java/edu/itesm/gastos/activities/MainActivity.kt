@@ -3,25 +3,22 @@ package edu.itesm.gastos.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import edu.itesm.gastos.R
 import edu.itesm.gastos.dao.GastoDao
-import edu.itesm.gastos.database.GastoApp
 import edu.itesm.gastos.database.GastosDB
 import edu.itesm.gastos.databinding.ActivityMainBinding
 import edu.itesm.gastos.entities.Gasto
 import edu.itesm.gastos.mvvm.MainActivityViewModel
 import edu.itesm.perros.adapter.GastosAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 

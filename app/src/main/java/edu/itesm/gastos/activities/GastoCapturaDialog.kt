@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import edu.itesm.gastos.databinding.ActivityCapturaGastoBinding
 import edu.itesm.gastos.entities.Gasto
 
-class GastoCapturaDialog ( private val onSubmitClickListener:(Gasto)->Unit):
+class GastoCapturaDialog (private val onSubmitClickListener:(Gasto)->Unit):
         DialogFragment(){
             private lateinit var binding: ActivityCapturaGastoBinding
 
@@ -31,3 +31,4 @@ class GastoCapturaDialog ( private val onSubmitClickListener:(Gasto)->Unit):
         return dialog
     }
 }
+
